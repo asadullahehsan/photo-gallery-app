@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -8,6 +13,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './feedback-and-chat.component.html',
   styleUrls: ['./feedback-and-chat.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class FeedbackAndChatComponent implements OnInit {
   showMsg: boolean = false;
@@ -19,7 +25,14 @@ export class FeedbackAndChatComponent implements OnInit {
     comments: '',
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Load the chat script, which activates the `<df-messenger>` element.
+    const script = document.createElement('script');
+    script.async = true;
+    script.src =
+      'https://www.gstatic.com/dialogflow-console/fast/messenger-cx/bootstrap.js?v=1';
+    document.head.appendChild(script);
+  }
 
   onSubmit(): void {
     console.log('Your feedback has been submitted', this.contactForm.value);
